@@ -11,12 +11,19 @@ Based on ffmpeg command:
 ---
 Windows
 ---
-TBD
+Download Python executable installer for windows:
+	https://www.python.org/downloads/windows
+Python should be associated with '.py' extention.
+
+Download ffmpeg installer for windows with static linking:
+	https://www.ffmpeg.org/download.html
+Add ffmpeg to windows path:
+	https://www.wdiaz.org/how-to-install-ffmpeg-on-windows/
 
 ---
 macOS
 ---
-To run in macOS install the python and ffmpeg.
+Install Python and ffmpeg:
 You can use a packager like [Homebrew](https://brew.sh/) to find these packages.
 
         brew install python ffmpeg
@@ -24,14 +31,12 @@ You can use a packager like [Homebrew](https://brew.sh/) to find these packages.
 ---
 Linux
 ---
-
-	apt-get install ffmpeg
+Install Python and ffmpeg:
+	apt-get install python ffmpeg
 
 ---
 Run
 ---
 Copy script to destination directory, then run:
-
         ./mkvinjector.py
-
 
