@@ -6,18 +6,24 @@ Simple copy script to destination directory with mkv files, their resources and 
 Resources should have the same name as target mkv container.
 
 Based on ffmpeg command:
+
         ffmpeg -i input.mkv -i audio.dts -map 0 -map 1 -c copy output.mkv
 
 ---
 Windows
 ---
 Download Python executable installer for windows:
+
         https://www.python.org/downloads/windows
+
 Python should be associated with '.py' extention.
 
 Download ffmpeg installer for windows with static linking:
-	https://www.ffmpeg.org/download.html
+
+        https://www.ffmpeg.org/download.html
+
 Add ffmpeg to windows path:
+
         https://www.wdiaz.org/how-to-install-ffmpeg-on-windows/
 
 ---
@@ -32,11 +38,13 @@ You can use a packager like [Homebrew](https://brew.sh/) to find these packages.
 Linux
 ---
 Install Python and ffmpeg:
+
         apt-get install python ffmpeg
 
 ---
 Run
 ---
 Copy script to destination directory, then run:
+
         ./mkvinjector.py
 
