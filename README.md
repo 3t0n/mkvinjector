@@ -2,12 +2,15 @@
 Introduction
 ---
 MkvInjector is a tool for injecting resources like subtitles and audio to mkv files.
-Simple copy script to destination directory with mkv files, their resources and run.
-Resources should have the same name as target mkv container.
+Copy script to destination directory with mkv files, subtitles, audio or other resources and run.
+Be informed that all resources should have the same name as target mkv container.
 
-Based on ffmpeg command:
-
-        ffmpeg -i input.mkv -i audio.dts -map 0 -map 1 -c copy output.mkv
+---
+Releases
+---
+Here you can find packaged script with included python and ffmpeg inside:
+        
+        https://github.com/3t0n/mkvinjector/releases
 
 ---
 Windows
@@ -27,7 +30,7 @@ Add ffmpeg to windows path:
         https://www.wdiaz.org/how-to-install-ffmpeg-on-windows/
 
 ---
-macOS
+MacOS
 ---
 Install Python and ffmpeg:
 You can use a packager like [Homebrew](https://brew.sh/) to find these packages.
@@ -40,11 +43,4 @@ Linux
 Install Python and ffmpeg:
 
         apt-get install python ffmpeg
-
----
-Run
----
-Copy script to destination directory, then run:
-
-        ./mkvinjector.py
 
