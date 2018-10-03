@@ -8,10 +8,8 @@ Be informed that all resources should have the same name as target mkv container
 ---
 Releases
 ---
-Here you can find packaged script with included python and ffmpeg inside:
+[Here](https://github.com/3t0n/mkvinjector/releases) you can find packaged script with included python and ffmpeg inside.
         
-        https://github.com/3t0n/mkvinjector/releases
-
 ---
 Windows
 ---
