@@ -83,7 +83,7 @@ if len(mkv_files) == 0:
 
 # Main loop over all root mkv files
 for mkv in mkv_files:
-    # cmd = ['-i', mkv]
+    #cmd = ['-i', mkv]
     cmd = ['-loglevel', 'panic', '-i', mkv]
 
     # Get only mkv name without extension
@@ -108,7 +108,8 @@ for mkv in mkv_files:
         create_folder(output_path)
 
         # Add last part of command
-        cmd.extend(['-c', 'copy', mkv_output])
+        # Mark default rus stream and unmark others
+        cmd.extend(['-c', 'copy', '-disposition:a:m:language:rus', 'default', '-disposition:a:m:', 'none', mkv_output])
         cmd.insert(0, find_ffmpeg())
         #print(cmd)
 
