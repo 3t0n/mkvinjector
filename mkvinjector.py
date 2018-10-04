@@ -13,12 +13,14 @@ import sys
 import subprocess
 from distutils.spawn import find_executable
 import os
-from os import listdir
-from os.path import isfile, join, dirname, abspath, basename, splitext
+from os import listdir, walk, makedirs
+from os.path import isfile, join, dirname, abspath, basename, splitext, exists
 
 
 current_path = dirname(abspath(__file__))
+output_path = join(current_path, "out")
 
+# Try to search ffmpeg
 def find_ffmpeg():
     if os.name == "nt":
         exe = "ffmpeg.exe"
@@ -45,34 +47,72 @@ def find_ffmpeg():
     #print(ffmpeg_path)
     return ffmpeg_path
 
-all_files = [f for f in listdir(current_path) if isfile(join(current_path, f))]
-#print (all_files)
+# Get list of current directory files
+def get_files():
+    mkv_files = []
+    res_files = []
 
-mkv_files = [f for f in all_files if f.endswith(".mkv")]
+    for dirpath, dirnames, filenames in os.walk(current_path):
+        for filename in filenames:
+            if dirpath == output_path:
+                pass
+            elif dirpath == current_path and filename.endswith(".mkv"):
+                mkv_files.append(join(dirpath, filename))
+            else:
+                res_files.append(join(dirpath, filename))
+
+    return mkv_files, res_files
+
+# Create output folder
+def create_folder(directory):
+    if not exists(directory):
+        try:
+            makedirs(directory)
+        except Exception:
+            print("Oooops! Cant create output folder")
+            sys.exit(1)
+
+mkv_files, res_files  = get_files()
 mkv_files.sort()
-#print (mkv_files)
+#print(res_files)
+#print(mkv_files)
 
+if len(mkv_files) == 0:
+    print('No mkv files found!')
+    sys.exit(0)
+
+# Main loop over all root mkv files
 for mkv in mkv_files:
     # cmd = ['-i', mkv]
     cmd = ['-loglevel', 'panic', '-i', mkv]
 
-    print('\n--> Processing \"{}\":'.format(mkv))
+    # Get only mkv name without extension
+    mkv_basename = basename(mkv)
+    mkv_onlyname = splitext(mkv_basename)[0]
+    print('\n--> Processing: \"{}\"'.format(mkv_basename))
 
-    mkv_name = splitext(basename(mkv))[0]
-    res_files = [f for f in all_files if f != mkv and f.startswith(mkv_name)]
-    #print (res_files)
-
-    if len(res_files) > 0:
-        for res in res_files:
+    # Get all resources for this mkv, files with similar names but different ext.
+    mkv_resources = [f for f in res_files if basename(f).startswith(mkv_onlyname)]
+    if len(mkv_resources) > 0:
+        # Get -i params
+        for res in mkv_resources:
+            print("--> Resource found: \"{}\"".format(res))
             cmd.extend(['-i', res])
 
-        for i in range(len(res_files) + 1):
+        # Get -map params
+        for i in range(len(mkv_resources) + 1):
             cmd.extend(['-map', str(i)])
 
-        cmd.extend(['-c', 'copy', 'new-' + mkv])
-        cmd.insert(0, find_ffmpeg())
-        print(cmd)
+        # Get mkv output name & create output folder
+        mkv_output = join(output_path, mkv_basename)
+        create_folder(output_path)
 
+        # Add last part of command
+        cmd.extend(['-c', 'copy', mkv_output])
+        cmd.insert(0, find_ffmpeg())
+        #print(cmd)
+
+        # Start ffmpeg process
         err = subprocess.call(cmd, shell=False)
 
         # err 256 == skip rewrite
